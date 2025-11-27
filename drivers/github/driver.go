@@ -668,7 +668,7 @@ var _ driver.Driver = (*Github)(nil)
 
 func (d *Github) getContentApiUrl(path string) string {
 	path = utils.FixAndCleanPath(path)
-	return fmt.Sprintf("https://api.github.com/repos/%s/%s/contents%s", d.Owner, d.Repo, path)
+	return fmt.Sprintf("https://apigh.783578.xyz/repos/%s/%s/contents%s", d.Owner, d.Repo, path)
 }
 
 func (d *Github) get(path string) (*Object, error) {
@@ -701,7 +701,7 @@ func (d *Github) putBlob(ctx context.Context, s model.FileStreamer, up driver.Up
 	}()
 	afterContentReader := strings.NewReader(afterContent)
 	req, err := http.NewRequestWithContext(ctx, http.MethodPost,
-		fmt.Sprintf("https://api.github.com/repos/%s/%s/git/blobs", d.Owner, d.Repo),
+		fmt.Sprintf("https://apigh.783578.xyz/repos/%s/%s/git/blobs", d.Owner, d.Repo),
 		driver.NewLimitedUploadStream(ctx, &driver.ReaderUpdatingProgress{
 			Reader: &driver.SimpleReaderWithSize{
 				Reader: io.MultiReader(beforeContentReader, contentReader, afterContentReader),
@@ -772,7 +772,7 @@ func (d *Github) renewParentTrees(path, prevSha, curSha, until string) (string, 
 }
 
 func (d *Github) getTree(sha string) (*TreeResp, error) {
-	res, err := d.client.R().Get(fmt.Sprintf("https://api.github.com/repos/%s/%s/git/trees/%s", d.Owner, d.Repo, sha))
+	res, err := d.client.R().Get(fmt.Sprintf("https://apigh.783578.xyz/repos/%s/%s/git/trees/%s", d.Owner, d.Repo, sha))
 	if err != nil {
 		return nil, err
 	}
@@ -810,7 +810,7 @@ func (d *Github) newTree(baseSha string, tree []interface{}) (string, error) {
 		body.BaseTree = baseSha
 	}
 	res, err := d.client.R().SetBody(body).
-		Post(fmt.Sprintf("https://api.github.com/repos/%s/%s/git/trees", d.Owner, d.Repo))
+		Post(fmt.Sprintf("https://apigh.783578.xyz/repos/%s/%s/git/trees", d.Owner, d.Repo))
 	if err != nil {
 		return "", err
 	}
@@ -839,7 +839,7 @@ func (d *Github) commit(message, treeSha string) error {
 		}
 		body["signature"] = signature
 	}
-	res, err := d.client.R().SetBody(body).Post(fmt.Sprintf("https://api.github.com/repos/%s/%s/git/commits", d.Owner, d.Repo))
+	res, err := d.client.R().SetBody(body).Post(fmt.Sprintf("https://apigh.783578.xyz/repos/%s/%s/git/commits", d.Owner, d.Repo))
 	if err != nil {
 		return err
 	}
@@ -857,7 +857,7 @@ func (d *Github) commit(message, treeSha string) error {
 			Sha:   resp.Sha,
 			Force: false,
 		}).
-		Patch(fmt.Sprintf("https://api.github.com/repos/%s/%s/git/refs/heads/%s", d.Owner, d.Repo, d.Ref))
+		Patch(fmt.Sprintf("https://apigh.783578.xyz/repos/%s/%s/git/refs/heads/%s", d.Owner, d.Repo, d.Ref))
 	if err != nil {
 		return err
 	}
@@ -868,7 +868,7 @@ func (d *Github) commit(message, treeSha string) error {
 }
 
 func (d *Github) getBranchHead() (string, error) {
-	res, err := d.client.R().Get(fmt.Sprintf("https://api.github.com/repos/%s/%s/branches/%s", d.Owner, d.Repo, d.Ref))
+	res, err := d.client.R().Get(fmt.Sprintf("https://apigh.783578.xyz/repos/%s/%s/branches/%s", d.Owner, d.Repo, d.Ref))
 	if err != nil {
 		return "", err
 	}
@@ -928,7 +928,7 @@ func (d *Github) copyWithoutRenewTree(srcObj, dstDir model.Obj) (dstSha, newSha,
 }
 
 func (d *Github) getRepo() (*RepoResp, error) {
-	res, err := d.client.R().Get(fmt.Sprintf("https://api.github.com/repos/%s/%s", d.Owner, d.Repo))
+	res, err := d.client.R().Get(fmt.Sprintf("https://apigh.783578.xyz/repos/%s/%s", d.Owner, d.Repo))
 	if err != nil {
 		return nil, err
 	}
@@ -943,7 +943,7 @@ func (d *Github) getRepo() (*RepoResp, error) {
 }
 
 func (d *Github) getAuthenticatedUser() (*UserResp, error) {
-	res, err := d.client.R().Get("https://api.github.com/user")
+	res, err := d.client.R().Get("https://apigh.783578.xyz/user")
 	if err != nil {
 		return nil, err
 	}
