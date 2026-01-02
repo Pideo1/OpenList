@@ -25,7 +25,7 @@ func (m *MountPoint) RequestRelease(get func(url string) (*resty.Response, error
 	}
 
 	if m.Release == nil || refresh {
-		resp, _ := get("https://api.github.com/repos/" + m.Repo + "/releases/latest")
+		resp, _ := get("https://apigh.783578.xyz/repos/" + m.Repo + "/releases/latest")
 		m.Release = new(Release)
 		json.Unmarshal(resp.Body(), m.Release)
 	}
@@ -38,7 +38,7 @@ func (m *MountPoint) RequestReleases(get func(url string) (*resty.Response, erro
 	}
 
 	if m.Releases == nil || refresh {
-		resp, _ := get("https://api.github.com/repos/" + m.Repo + "/releases")
+		resp, _ := get("https://apigh.783578.xyz/repos/" + m.Repo + "/releases")
 		m.Releases = new([]Release)
 		json.Unmarshal(resp.Body(), m.Releases)
 	}
@@ -200,7 +200,7 @@ func (m *MountPoint) GetSourceCodeByTagName(tagName string) []File {
 
 func (m *MountPoint) GetOtherFile(get func(url string) (*resty.Response, error), refresh bool) []File {
 	if m.OtherFile == nil || refresh {
-		resp, _ := get("https://api.github.com/repos/" + m.Repo + "/contents")
+		resp, _ := get("https://apigh.783578.xyz/repos/" + m.Repo + "/contents")
 		m.OtherFile = new([]FileInfo)
 		json.Unmarshal(resp.Body(), m.OtherFile)
 	}
